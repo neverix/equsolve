@@ -24,10 +24,10 @@ function addAutoResize(elements: HTMLCollection) {
 }
 
 interface Equation {
-    k1: number
+    a1: number
     b1: number
     c1: number
-    k2: number
+    a2: number
     b2: number
     c2: number
 }
@@ -53,10 +53,8 @@ const solvers: { [method: string]: (eq: Equation) => TemplateResult }
 const methods = document.getElementsByName("method")
 const solutionContainer = document.getElementById("solution")
 function solveEquation() {
-    console.log("Solving...")
-
-    const equation = {} as Equation;
-    ['k1', 'b1', 'c1', 'k2', 'b2', 'c2'].forEach(param => {
+    const equation = {} as Equation
+    ['a1', 'b1', 'c1', 'a2', 'b2', 'c2'].forEach(param => {
         //@ts-ignore
         equation[param] = (document.getElementById(param) as HTMLInputElement).value
     });
