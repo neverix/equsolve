@@ -60,14 +60,6 @@ function signAbs(n: number) {
     return sign(n) + ' ' + fix(abs(n))
 }
 
-function solveAddition(equation: Equation): TemplateResult {
-    return html`
-        x = 0
-        <br>
-        y = 0
-    `
-}
-
 function solveReplacement(equation: Equation): TemplateResult {
     const step0YX = equation.a1
     const step0YY = equation.b1
@@ -106,69 +98,59 @@ function solveReplacement(equation: Equation): TemplateResult {
     const step6X = step5Number / step5X
 
     const step7Number = step2YNumber
-    const step7Multiplier = step6X
-    const 
+    const step7Multiplier = step2YX
+    const step7X = step6X
+
+    const step8Number1 = step7Number
+    const step8Number2 = step7Multiplier * step7X
+
+    const step9Y = step8Number1 + step8Number2
+    
+    const x = step6X, y = step9Y
 
     return html`
         <p>
-            ${step0YX}𝑥 ${signAbs(step0YY)}𝑦 = ${step0YNumber}
+            ${step0YX}x ${signAbs(step0YY)}y = ${step0YNumber}
             <br>
-            ${step0XX}𝑥 ${signAbs(step0XY)}𝑦 = ${step0XNumber}
+            ${step0XX}x ${signAbs(step0XY)}y = ${step0XNumber}
         </p>
         <p>
-            ${step1YY}𝑦 = ${step1YNumber} ${signAbs(step1YX)}𝑥
+            ${step1YY}y = ${step1YNumber} ${signAbs(step1YX)}x
             <br>
-            ${step1XX}𝑥 = ${step1XNumber} ${signAbs(step1XY)}𝑦
+            ${step1XX}x = ${step1XNumber} ${signAbs(step1XY)}y
         </p>
         <p>
-            ${''}𝑦 = ${fix(step2YNumber)} ${signAbs(step2YX)}𝑥
+            ${''}y = ${fix(step2YNumber)} ${signAbs(step2YX)}x
             <br>
-            ${''}𝑥 = ${fix(step2XNumber)} ${signAbs(step2XY)}𝑦
+            ${''}x = ${fix(step2XNumber)} ${signAbs(step2XY)}y
         </p>
         <p>
-            ${''}𝑥 = ${fix(step3Number)} ${signAbs(step3XMultiplier)}(${fix(step3X1)} ${signAbs(step3X2)}𝑥)
+            ${''}x = ${fix(step3Number)} ${signAbs(step3XMultiplier)}(${fix(step3X1)} ${signAbs(step3X2)}x)
         </p>
         <p>
-            ${''}𝑥 = ${fix(step4Number)} ${signAbs(step4X1)} ${signAbs(step4X2)}𝑥
+            ${''}x = ${fix(step4Number)} ${signAbs(step4X1)} ${signAbs(step4X2)}x
         </p>
         <p>
-            ${fix(step5X)}𝑥 = ${fix(step5Number)}
+            ${fix(step5X)}x = ${fix(step5Number)}
         </p>
         <p>
-            ${''}𝑥 = ${fix(step6X)}
+            ${''}x = ${fix(step6X)}
         </p>
         <p>
-            ${''}𝑦 = ${fix(equation.c1 / equation.b1)} ${signAbs(-equation.a1 / equation.b1)} ⋅ ${fixParenthesize((equation.c2 /
-                equation.a2 + equation.c1 / equation.b1 * (-equation.b2 / equation.a2)) / (1 - (-equation.a1 / equation.b1 *
-                (-equation.b2 / equation.a2))))}
+            ${''}y = ${fix(step7Number)} ${signAbs(step7Multiplier)} ⋅ ${fixParenthesize(step7X)}
         </p>
         <p>
-            ${''}𝑦 = ${fix(equation.c1 / equation.b1)} ${signAbs(-equation.a1 / equation.b1 * ((equation.c2 /
-            equation.a2 + equation.c1 / equation.b1 * (-equation.b2 / equation.a2)) / (1 - (-equation.a1 / equation.b1 *
-                (-equation.b2 / equation.a2)))))}
+            ${''}y = ${fix(step8Number1)} ${signAbs(step8Number2)}
         </p>
         <p>
-            ${''}𝑦 = ${fix(equation.c1 / equation.b1 + (-equation.a1 / equation.b1 * ((equation.c2 /
-                equation.a2 + equation.c1 / equation.b1 * (-equation.b2 / equation.a2)) / (1 - (-equation.a1 / equation.b1 *
-                (-equation.b2 / equation.a2))))))}
+            ${''}y = ${fix(step9Y)}
         </p>
         <p>
-            Ответ: (${
-                fix((equation.c2 / equation.a2 + equation.c1 / equation.b1 * (-equation.b2 / equation.a2)) /
-                    (1- (-equation.a1 / equation.b1 * (-equation.b2 / equation.a2))))
-            };
-            ${
-                fix(equation.c1 / equation.b1 + (-equation.a1 / equation.b1 * ((equation.c2 /
-                    equation.a2 + equation.c1 / equation.b1 * (-equation.b2 / equation.a2)) / (1 - (-equation.a1 / equation.b1 *
-                    (-equation.b2 / equation.a2))))))
-            })
+            Ответ: (${fix(x)}; ${fix(y)})
         </p>
     `
 }
-const solvers: { [method: string]: (eq: Equation) => TemplateResult }
-    = { solveAddition, solveReplacement }
 
-const methods = document.getElementsByName("method")
 const solutionContainer = document.getElementById("solution")
 function solveEquation() {
     const equation = {} as Equation
@@ -177,14 +159,8 @@ function solveEquation() {
         equation[param] = (document.getElementById(param) as HTMLInputElement).value
     });
 
-    for (let i = 0; i < methods.length; i++) {
-        const radio = methods.item(i) as HTMLInputElement
-        if (radio.checked) {
-            const result = solvers[radio.value](equation)
-            render(result, solutionContainer)
-            return
-        }
-    }
+    const result = solveReplacement(equation)
+    render(result, solutionContainer)
 }
 
 document.getElementById("solve").onclick = solveEquation
