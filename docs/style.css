@@ -1,0 +1,27 @@
+.mdl-layout__header-row {
+  padding: 0 20px; }
+
+.number-input {
+  width: 9px; }
+
+.mdl-components-dl {
+  color: #777777; }
+
+.page-content {
+  padding: 20px; }
+
+.mdl-layout-title {
+  font-family: "Roboto";
+  font-weight: 700;
+  color: #ffffff; }
+
+body {
+  background-color: #424242; }
+
+.page-content {
+  background-color: #f7f7f7; }
+
+#solution {
+  margin-top: 30px; }
+
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzdHlsZS5jc3MiLCJzb3VyY2VSb290IjoiIn0=*/
